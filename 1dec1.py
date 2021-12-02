@@ -6,6 +6,7 @@ def open_file():
     return depth_list
 
 def calculate_deeper(depth_list):
+    """How many times is the new measurement deeper than the last one"""
     lower_depths = 0
     old_depth = depth_list.pop(0)
     for depth in depth_list:
