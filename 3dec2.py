@@ -69,7 +69,4 @@ def main():
     life_support_rating = oxygen * co2
     print("Oxygen: {}\nCO2: {}\nLSR: {}".format(oxygen, co2, life_support_rating))
 
-
-
-
 main()
