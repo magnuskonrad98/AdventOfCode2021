@@ -1,7 +1,12 @@
+import os
+
 def open_file():
-    fileobject = open("3dec.txt", "r")
+    script_dir = os.path.dirname(__file__)
+    rel_path = "3dec.txt"
+    abs_file_path = os.path.join(script_dir, rel_path)
+    file_object = open(abs_file_path, "r")
     binary_list = []
-    for line in fileobject:
+    for line in file_object:
         binary_list.append(line.strip())
     return binary_list
 

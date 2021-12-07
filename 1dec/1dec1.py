@@ -1,6 +1,11 @@
+import os
+
 def open_file():
+    script_dir = os.path.dirname(__file__)
+    rel_path = "1dec.txt"
+    abs_file_path = os.path.join(script_dir, rel_path)
     depth_list = []
-    fileobject = open("1dec1.txt", "r")
+    fileobject = open(abs_file_path, "r")
     for line in fileobject:
         depth_list.append(int(line.strip()))
     return depth_list

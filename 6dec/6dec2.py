@@ -1,7 +1,11 @@
+import os
 quantity_list = [0, 0, 0, 0, 0, 0, 0, 0, 0] #Keep count of the quantity of fish with each possible value of "days left"
 
 def open_file():
-    file_object = open("6dec.txt", "r")
+    script_dir = os.path.dirname(__file__)
+    rel_path = "6dec.txt"
+    abs_file_path = os.path.join(script_dir, rel_path)
+    file_object = open(abs_file_path, "r")
     lanternfish_list = file_object.read().strip().split(",")
     return lanternfish_list
 

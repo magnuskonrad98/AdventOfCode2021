@@ -1,5 +1,10 @@
+import os
+
 def open_file():
-    file_object = open("2dec.txt", "r")
+    script_dir = os.path.dirname(__file__)
+    rel_path = "2dec.txt"
+    abs_file_path = os.path.join(script_dir, rel_path)
+    file_object = open(abs_file_path, "r")
     instruction_list = []
     for line in file_object:
         direction, quantity = line.strip().split(" ")
@@ -9,13 +14,15 @@ def open_file():
 def calculate_position(instruction_list):
     depth = 0
     horizontal = 0
+    aim = 0
     for instruction in instruction_list:
         if instruction[0] == "forward":
             horizontal += instruction[1]
+            depth += aim*instruction[1]
         elif instruction[0] == "down":
-            depth += instruction[1]
+            aim += instruction[1]
         elif instruction[0] == "up":
-            depth -= instruction[1]
+            aim -= instruction[1]
     return (depth, horizontal)
 
 def main():

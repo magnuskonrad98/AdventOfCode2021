@@ -1,8 +1,13 @@
+import os
+
 floor = [{} for _ in range(1000)] #List of 1000 dictionaries. Each dictionary is a row.
 double_marked_spots = 0 #Keep count of the number of cordinates that multiple lines cross.
 
 def open_file():
-    file_object = open("5dec.txt", "r")
+    script_dir = os.path.dirname(__file__)
+    rel_path = "5dec.txt"
+    abs_file_path = os.path.join(script_dir, rel_path)
+    file_object = open(abs_file_path, "r")
     cordinates_list = []
     for line in file_object:
         cordinates = []
@@ -50,6 +55,35 @@ def mark_floor(cordinates_list):
                         double_marked_spots += 1
                 else:
                     floor[y_value][i] = 1
+
+            
+        elif abs(cordinates[0] - cordinates[2]) == abs(cordinates[1] -cordinates[3]):
+            if cordinates[0] < cordinates[2]:
+                x_min = cordinates[0]
+                x_max = cordinates[2]
+                y_curr = cordinates[1] #Corresponding to x_xmin
+                if y_curr < cordinates[3]:
+                    change = 1 #y increases by one when x increases by one
+                else:
+                    change = -1 #y decreases by one when x increases y one
+
+            else:
+                x_min = cordinates[2]
+                x_max = cordinates[0]
+                y_curr = cordinates[3] #Corresponding to x_min
+                if y_curr < cordinates[1]:
+                    change = 1
+                else:
+                    change = -1
+
+            for i in range(x_min, x_max+1):
+                if i in floor[y_curr]:
+                    floor[y_curr][i] += 1
+                    if floor[y_curr][i] == 2:
+                        double_marked_spots += 1
+                else:
+                    floor[y_curr][i] = 1
+                y_curr += change
     return double_marked_spots
 
 

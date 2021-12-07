@@ -1,3 +1,5 @@
+import os
+
 card_list = []
 
 class BingoCard:
@@ -30,7 +32,10 @@ class BingoCard:
 
 
 def open_file():
-    file_object = open("4dec.txt", "r")
+    script_dir = os.path.dirname(__file__)
+    rel_path = "4dec.txt"
+    abs_file_path = os.path.join(script_dir, rel_path)
+    file_object = open(abs_file_path, "r")
     line_counter = 0
     for line in file_object:
         if (line_counter - 1) % 6 != 0: #Empty line each 6 lines
@@ -49,12 +54,15 @@ def open_file():
 
 
 def play_bingo(bingo_numbers):
-    """Checks numbers until someone has won"""
+    """Check numbers until every card has won. Return product of last number and the sum of unmarked numbers"""
     for num in bingo_numbers:
-        for card in card_list:
+        for card in list(card_list): #We have to make a copy of the list, because we are deleting from it while iterating
             won = card.check_number(num)
             if won is not None:
-                return won
+                if len(card_list) > 1:
+                    card_list.remove(card)
+                else:
+                    return won
 
 def main():
     bingo_numbers = open_file()
