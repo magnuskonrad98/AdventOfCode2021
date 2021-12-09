@@ -1,5 +1,4 @@
 import os
-import posixpath
 
 def open_file():
     script_dir = os.path.dirname(__file__)
