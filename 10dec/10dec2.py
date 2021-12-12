@@ -1,4 +1,5 @@
 import os
+import statistics
 
 def open_file():
     script_dir = os.path.dirname(__file__)
@@ -10,9 +11,12 @@ def open_file():
         lines.append(line.strip())
     return lines
 
-def get_wrong_char(line):
+def get_line_points(line):
     openers = ["(", "[", "{", "<"]
     closers = [")", "]", "}", ">"]
+    points_dict = {"(": 1, "[": 2, "{": 3, "<": 4}
+    total_score = 0
+
     open_chunks = []
     for char in line:
         if char in openers:
@@ -23,23 +27,28 @@ def get_wrong_char(line):
             if open_chunks[-1] == opener:
                 open_chunks.pop() #We pop the last opener when it gets closed
             else:
-                return char
-    return 0
+                return 0
+    
+    for i in reversed(open_chunks): #To find the points of the line, we multiply its current score (initially 0) by 5 and then add points to it according to the points_dict
+        total_score *= 5
+        total_score += points_dict[i]
 
-def get_points(lines):
-    points_dict = {")": 3, "]": 57, "}": 1197, ">": 25137}
-    points_sum = 0
+    return total_score
+        
+
+def get_median_points(lines):
+    points_list = []
     for line in lines:
-        char = get_wrong_char(line)
-        if char != 0:
-            points = points_dict[char]
-            points_sum += points
-    return points_sum
+        points = get_line_points(line)
+        if points != 0:
+            points_list.append(points)
+    median = statistics.median(points_list) #Return the median of the points_list
+    return median
 
 
 def main():
     lines = open_file()
-    total_points = get_points(lines)
-    print(total_points)
+    median = get_median_points(lines)
+    print(median)
 
 main()
